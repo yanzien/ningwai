@@ -7,6 +7,7 @@ const T = readFileSync('.cf-token', 'utf8').trim();
 const GH = readFileSync('.gh-token', 'utf8').trim();
 const A = 'ce40324a6c5953f0153dd198d28307b9';
 const DB = 'b09a1a8b-ae50-44fa-96d9-d9376548f28e';
+const REPO = process.env.GH_BACKUP_REPO || 'yanzien/ningwai-backups';
 
 // 模拟 worker D1 binding（prepare().all()）
 const db = {
@@ -33,16 +34,26 @@ const db = {
 };
 
 const { doBackup } = await import('../src/backup-worker.js');
-const r = await doBackup({ GH_BACKUP_TOKEN: GH, db });
+const r = await doBackup({ GH_BACKUP_TOKEN: GH, GH_BACKUP_REPO: REPO, db });
 console.log('doBackup 结果:', JSON.stringify(r, null, 2));
 
 // 下载刚推送的文件验证可读
 if (r.ok) {
-  const g = await fetch(`https://api.github.com/repos/yanzien/ningwai/contents/${r.path}`, {
+  const g = await fetch(`https://api.github.com/repos/${REPO}/contents/${r.path}`, {
     headers: { Authorization: `Bearer ${GH}`, Accept: 'application/vnd.github+json' },
   });
   const d = await g.json();
-  const body = Buffer.from(d.content, 'base64').toString('utf8');
+  // Contents API 对 >1MB 的文件不返回正文，需改用 Blobs API 按 sha 取
+  let body;
+  if (d.content) {
+    body = Buffer.from(d.content, 'base64').toString('utf8');
+  } else {
+    const b = await fetch(`https://api.github.com/repos/${REPO}/git/blobs/${d.sha}`, {
+      headers: { Authorization: `Bearer ${GH}`, Accept: 'application/vnd.github+json' },
+    });
+    const bd = await b.json();
+    body = Buffer.from(bd.content, 'base64').toString('utf8');
+  }
   const lines = body.split('\n');
   console.log(`\n下载验证：${r.path} ${(body.length / 1024).toFixed(1)}KB ${lines.length} 行`);
   console.log('头部:', lines.slice(0, 4).join(' / ').slice(0, 120));

@@ -88,19 +88,25 @@ async function gh(method, path, body) {
   const t = await gh('POST', `/repos/${REPO}/git/trees`, { tree });
 
   console.log('== 3/4 建 commit ==');
+  // 已有分支则以当前 tip 为父提交，正常推进历史；空仓库则作为首个提交
+  let parents = [];
+  try {
+    const ref = await gh('GET', `/repos/${REPO}/git/ref/heads/main`);
+    if (ref?.object?.sha) parents = [ref.object.sha];
+  } catch { /* 空仓库，无 ref */ }
+
   const c = await gh('POST', `/repos/${REPO}/git/commits`, {
     message: 'feat: 宁外八一校园社区 v2.3 开源首发\n\n论坛、档案库、主题商店、通知、搜索、每日备份。\nMIT License.',
     tree: t.sha,
-    parents: [],
+    parents,
   });
 
   console.log('== 4/4 建分支 ==');
-  try {
+  if (parents.length) {
+    await gh('PATCH', `/repos/${REPO}/git/refs/heads/main`, { sha: c.sha });
+    console.log('   （追加到已有历史）');
+  } else {
     await gh('POST', `/repos/${REPO}/git/refs`, { ref: 'refs/heads/main', sha: c.sha });
-  } catch {
-    // 空仓库初始化后 ref 已存在 → 强制指向新 commit（旧提交变为不可达，历史只有这一个）
-    await gh('PATCH', `/repos/${REPO}/git/refs/heads/main`, { sha: c.sha, force: true });
-    console.log('   （覆盖已有 main 分支）');
   }
 
   console.log(`\n完成：${files.length} 文件 → 1 个 commit ${c.sha.slice(0, 8)}`);
