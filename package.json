@@ -1,0 +1,18 @@
+{
+  "name": "ningwai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "pages:build": "node scripts/build-pages.mjs",
+    "db:init": "wrangler d1 execute ningwai-db --remote --file=database_init.sql",
+    "db:seed": "node scripts/gen-seed.mjs"
+  },
+  "dependencies": {
+    "hono": "^4.13.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260820.1",
+    "esbuild": "^0.25.0",
+    "wrangler": "^4.125.0"
+  }
+}

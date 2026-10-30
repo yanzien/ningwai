@@ -1,0 +1,1 @@
+{"query":"query { viewer { accounts(filter: {accountTag: \"ce40324a6c5953f0153dd198d28307b9\"}) { d1AnalyticsAdaptiveGroups(limit: 100, filter: {datetime_geq: \"2026-10-23T12:15:00Z\", datetime_leq: \"2026-10-23T12:50:00Z\", databaseId: \"b09a1a8b-ae50-44fa-96d9-d9376548f28e\"}, orderBy: [datetime_DESC]) { sum { readQueries rowsRead } dimensions { datetime } } } } }"}

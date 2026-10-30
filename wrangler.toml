@@ -1,0 +1,17 @@
+name = "ningwai"
+pages_build_output_dir = "pages-build"
+compatibility_date = "2024-11-01"
+
+# === D1 数据库绑定 ===
+[[d1_databases]]
+binding = "db"
+database_name = "ningwai-db"
+database_id = "b09a1a8b-ae50-44fa-96d9-d9376548f28e"
+
+# === KV：会话 / 注册限流 / 首页缓存 ===
+[[kv_namespaces]]
+binding = "KV"
+id = "8fe51cb7f4d94c2082d4b26ffdcc9fa3"
+
+# === Turnstile（试跑不配；配了 secret 才启用校验）===
+#   npx wrangler pages secret put TURNSTILE_SECRET --project-name ningwai

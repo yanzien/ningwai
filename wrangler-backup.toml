@@ -1,0 +1,12 @@
+name = "ningwai-backup"
+main = "src/backup-worker.js"
+compatibility_date = "2024-11-01"
+
+# 每天 UTC 16:00（北京时间 0:00）执行 D1 全量导出 → GitHub
+[triggers]
+crons = ["0 16 * * *"]
+
+[[d1_databases]]
+binding = "db"
+database_name = "ningwai-db"
+database_id = "b09a1a8b-ae50-44fa-96d9-d9376548f28e"

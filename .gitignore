@@ -1,0 +1,7 @@
+node_modules/
+pages-build/
+.wrangler/
+*.log
+backups/
+.cf-token
+.gh-token

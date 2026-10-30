@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>宁外八一 · 校园社区</title>
+<meta name="description" content="宁波外国语学校 · 浙江省八一学校校园社区：站点资讯、档案库、组织，共建我们的数字校园。">
+<meta name="theme-color" content="#1e3a5f">
+<meta property="og:title" content="宁外八一 · 校园社区">
+<meta property="og:description" content="宁波外国语学校 · 浙江省八一学校校园社区">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/logo.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#/"><img class="brand-logo" src="/logo-64.png" alt="宁外八一">宁外八一</a>
+  <button class="nav-toggle" id="nav-toggle" aria-label="打开菜单"><span></span><span></span><span></span></button>
+  <nav class="nav-links">
+    <a href="#/" data-nav="home">首页</a>
+    <a href="#/news" data-nav="news">资讯</a>
+    <a href="#/wiki" data-nav="wiki">档案库</a>
+    <a href="#/forum" data-nav="forum">论坛</a>
+    <a href="#/orgs" data-nav="orgs">组织</a>
+    <a href="#/themes" data-nav="themes">主题商店</a>
+    <a href="#/admin" data-nav="admin" id="nav-admin" hidden>管理后台</a>
+  </nav>
+  <form class="nav-search" id="nav-search" action="#/search" method="get">
+    <input class="nav-search-input" id="nav-q" name="q" type="search" placeholder="搜索词条 / 资讯 / 帖子" autocomplete="off" maxlength="50">
+    <button class="nav-search-btn" type="submit" aria-label="搜索">🔍</button>
+  </form>
+  <div class="nav-right" id="nav-right"></div>
+</header>
+<main id="app" class="container"></main>
+<footer class="footer">
+  <div class="f-brand">宁外八一 · 校园社区</div>
+  <div>宁波外国语学校 · 浙江省八一学校 &nbsp;·&nbsp; <span id="foot-me"></span><a href="#/changelog">更新日志</a> &nbsp;·&nbsp; <a href="#/privacy">隐私说明</a> &nbsp;·&nbsp; <a href="#/theme">主题工坊</a></div>
+</footer>
+<div id="modal-root"></div>
+<div id="toast-root"></div>
+<script src="/vendor/katex/katex.min.js" defer></script>
+<script src="/vendor/katex/auto-render.min.js" defer></script>
+<script src="/theme.js" defer></script>
+<script src="/disclaimer.js" defer></script>
+<script src="/anniv.js" defer></script>
+<script src="/app.js" defer></script>
+</body>
+</html>
